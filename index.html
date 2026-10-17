@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SR GAMER - Proxy Portal</title>
+    <style>
+        :root {
+            --bg-color: #0d0f12;
+            --card-bg: #161a22;
+            --accent-red: #ff2a4b;
+            --accent-red-hover: #d61f3c;
+            --text-main: #ffffff;
+            --text-muted: #8b949e;
+            --border-color: #2e3545;
+            --success-color: #2ea043;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .brand-title {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            font-style: italic;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--accent-red);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="password"], input[type="text"], textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #0d0f12;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--accent-red);
+        }
+
+        .toggle-btn {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-red);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-red-hover);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background-color: #21262d;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #30363d;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background-color: rgba(46, 160, 67, 0.15);
+            color: var(--success-color);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success-color);
+            border-radius: 50%;
+        }
+
+        .info-card {
+            background-color: #0d0f12;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .info-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #21262d;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .logout-link {
+            display: block;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-top: 16px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .key-list {
+            max-height: 120px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+        }
+
+        .key-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #0d0f12;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .del-btn {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- LOGIN SECTION -->
+        <div id="loginView">
+            <div class="header">
+                <div class="brand-title">SR GAMER</div>
+                <div class="brand-subtitle">ACCESS PORTAL</div>
+            </div>
+
+            <div class="form-group">
+                <label for="accessKey">ACCESS KEY</label>
+                <div class="input-wrapper">
+                    <input type="password" id="accessKey" placeholder="Enter Access Key">
+                    <button type="button" class="toggle-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()">SHOW</button>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="handleLogin()">LOGIN</button>
+        </div>
+
+        <!-- USER DASHBOARD SECTION -->
+        <div id="userView" class="hidden">
+            <div class="header">
+                <div class="brand-title">SR GAMER</div>
+                <div class="brand-subtitle">USER DASHBOARD</div>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    READY TO CONNECT
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-title">ACTIVE SESSION</div>
+                <div class="info-value" id="userKeyDisplay">SR-GAMER</div>
+            </div>
+
+            <button class="btn btn-primary" onclick="openHappApp()">OPEN IN HAPP APP</button>
+            <a class="logout-link" onclick="logout()">LOGOUT</a>
+        </div>
+
+        <!-- ADMIN PANEL SECTION -->
+        <div id="adminView" class="hidden">
+            <div class="header">
+                <div class="brand-title">SR GAMER</div>
+                <div class="brand-subtitle">ADMIN CONTROL PANEL</div>
+            </div>
+
+            <div class="form-group">
+                <label>HAPP JSON CONFIGURATION</label>
+                <textarea id="jsonConfigInput" placeholder="Paste Happ JSON Code here..."></textarea>
+                <button class="btn btn-primary" style="margin-top: 8px;" onclick="saveJsonConfig()">SAVE CONFIG</button>
+            </div>
+
+            <div class="form-group" style="margin-top: 24px;">
+                <label>LICENSE KEYS MANAGEMENT</label>
+                <div class="key-list" id="keyListDisplay"></div>
+                
+                <div class="input-wrapper">
+                    <input type="text" id="newKeyInput" placeholder="New License Key">
+                </div>
+                <button class="btn btn-secondary" onclick="addNewKey()">ADD NEW KEY</button>
+            </div>
+
+            <a class="logout-link" onclick="logout()">LOGOUT</a>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // DEFAULT CONFIGURATIONS
+        const DEFAULT_KEYS = ["SR-GAMER"];
+        const ADMIN_KEY = "ADMIN-SR-GAMER";
+        
+        const DEFAULT_JSON = {
+            "remarks": "SR GAMER",
+            "inbounds": [{
+                "tag": "socks",
+                "listen": "127.0.0.1",
+                "port": 10808,
+                "protocol": "socks",
+                "settings": { "auth": "noauth", "udp": true }
+            }]
+        };
+
+        // INITIALIZE STORAGE
+        if (!localStorage.getItem("sr_user_keys")) {
+            localStorage.setItem("sr_user_keys", JSON.stringify(DEFAULT_KEYS));
+        }
+        if (!localStorage.getItem("sr_happ_config")) {
+            localStorage.setItem("sr_happ_config", JSON.stringify(DEFAULT_JSON));
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        function toggleKeyVisibility() {
+            const input = document.getElementById("accessKey");
+            const btn = document.getElementById("toggleKeyBtn");
+            if (input.type === "password") {
+                input.type = "text";
+                btn.innerText = "HIDE";
+            } else {
+                input.type = "password";
+                btn.innerText = "SHOW";
+            }
+        }
+
+        function handleLogin() {
+            const keyInput = document.getElementById("accessKey").value.trim();
+            const userKeys = JSON.parse(localStorage.getItem("sr_user_keys"));
+
+            if (keyInput === ADMIN_KEY) {
+                document.getElementById("loginView").classList.add("hidden");
+                document.getElementById("adminView").classList.remove("hidden");
+                loadAdminData();
+                showToast("Welcome Admin");
+            } else if (userKeys.includes(keyInput)) {
+                document.getElementById("loginView").classList.add("hidden");
+                document.getElementById("userView").classList.remove("hidden");
+                document.getElementById("userKeyDisplay").innerText = keyInput;
+                showToast("Access Granted");
+            } else {
+                showToast("Invalid Access Key!");
+            }
+        }
+
+        function logout() {
+            document.getElementById("accessKey").value = "";
+            document.getElementById("loginView").classList.remove("hidden");
+            document.getElementById("userView").classList.add("hidden");
+            document.getElementById("adminView").classList.add("hidden");
+            showToast("Logged Out");
+        }
+
+        function openHappApp() {
+            const jsonConfig = localStorage.getItem("sr_happ_config");
+            if (!jsonConfig) {
+                showToast("No configuration found!");
+                return;
+            }
+
+            // Encode JSON to trigger Happ App Deep-Link
+            const encodedConfig = encodeURIComponent(jsonConfig);
+            const happDeepLink = "happ://import?data=" + encodedConfig;
+
+            // Trigger app redirect
+            window.location.href = happDeepLink;
+            
+            // Fallback: Copy to clipboard if app doesn't launch automatically
+            setTimeout(() => {
+                navigator.clipboard.writeText(jsonConfig).then(() => {
+                    showToast("Opening Happ App... (Config Copied)");
+                });
+            }, 500);
+        }
+
+        function loadAdminData() {
+            const currentConfig = localStorage.getItem("sr_happ_config");
+            document.getElementById("jsonConfigInput").value = currentConfig;
+            renderKeyList();
+        }
+
+        function saveJsonConfig() {
+            const inputVal = document.getElementById("jsonConfigInput").value.trim();
+            try {
+                JSON.parse(inputVal); // Validate JSON format
+                localStorage.setItem("sr_happ_config", inputVal);
+                showToast("JSON Config Saved Successfully!");
+            } catch (e) {
+                showToast("Invalid JSON Format!");
+            }
+        }
+
+        function renderKeyList() {
+            const userKeys = JSON.parse(localStorage.getItem("sr_user_keys"));
+            const container = document.getElementById("keyListDisplay");
+            container.innerHTML = "";
+
+            userKeys.forEach((key, index) => {
+                const item = document.createElement("div");
+                item.className = "key-item";
+                item.innerHTML = `
+                    <span>${key}</span>
+                    <button class="del-btn" onclick="deleteKey(${index})">REMOVE</button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function addNewKey() {
+            const newKey = document.getElementById("newKeyInput").value.trim();
+            if (!newKey) return;
+
+            const userKeys = JSON.parse(localStorage.getItem("sr_user_keys"));
+            if (userKeys.includes(newKey) || newKey === ADMIN_KEY) {
+                showToast("Key already exists!");
+                return;
+            }
+
+            userKeys.push(newKey);
+            localStorage.setItem("sr_user_keys", JSON.stringify(userKeys));
+            document.getElementById("newKeyInput").value = "";
+            renderKeyList();
+            showToast("Key Added!");
+        }
+
+        function deleteKey(index) {
+            const userKeys = JSON.parse(localStorage.getItem("sr_user_keys"));
+            userKeys.splice(index, 1);
+            localStorage.setItem("sr_user_keys", JSON.stringify(userKeys));
+            renderKeyList();
+            showToast("Key Removed!");
+        }
+    </script>
+</body>
+</html>
