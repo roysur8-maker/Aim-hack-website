@@ -336,12 +336,11 @@
     <div id="toast" class="toast"></div>
 
     <script>
-        // DEFAULT CONFIGURATIONS
         const DEFAULT_KEYS = ["SR-GAMER"];
         const ADMIN_KEY = "ADMIN-SR-GAMER";
         
         const DEFAULT_JSON = {
-            "remarks": "SR GAMER",
+            "remarks": "SR MODS",
             "inbounds": [{
                 "tag": "socks",
                 "listen": "127.0.0.1",
@@ -351,7 +350,6 @@
             }]
         };
 
-        // INITIALIZE STORAGE
         if (!localStorage.getItem("sr_user_keys")) {
             localStorage.setItem("sr_user_keys", JSON.stringify(DEFAULT_KEYS));
         }
@@ -414,19 +412,14 @@
                 return;
             }
 
-            // Encode JSON to trigger Happ App Deep-Link
-            const encodedConfig = encodeURIComponent(jsonConfig);
-            const happDeepLink = "happ://import?data=" + encodedConfig;
+            // Direct Happ App Deep-Link scheme trigger
+            const rawConfig = encodeURIComponent(jsonConfig.trim());
+            const happDeepLink = "happ://import?data=" + rawConfig;
 
-            // Trigger app redirect
+            showToast("Opening Happ App...");
+
+            // Trigger app launch
             window.location.href = happDeepLink;
-            
-            // Fallback: Copy to clipboard if app doesn't launch automatically
-            setTimeout(() => {
-                navigator.clipboard.writeText(jsonConfig).then(() => {
-                    showToast("Opening Happ App... (Config Copied)");
-                });
-            }, 500);
         }
 
         function loadAdminData() {
@@ -438,7 +431,7 @@
         function saveJsonConfig() {
             const inputVal = document.getElementById("jsonConfigInput").value.trim();
             try {
-                JSON.parse(inputVal); // Validate JSON format
+                JSON.parse(inputVal);
                 localStorage.setItem("sr_happ_config", inputVal);
                 showToast("JSON Config Saved Successfully!");
             } catch (e) {
