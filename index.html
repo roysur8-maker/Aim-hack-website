@@ -457,7 +457,6 @@
             }]
         };
 
-        // Initialize Local Storage
         if (!localStorage.getItem("sr_user_keys")) {
             localStorage.setItem("sr_user_keys", JSON.stringify(DEFAULT_KEYS));
         }
@@ -527,11 +526,30 @@
                 return;
             }
 
-            const rawConfig = encodeURIComponent(jsonConfig.trim());
-            const happDeepLink = "happ://import?data=" + rawConfig;
+            const cleanJson = jsonConfig.trim();
+            
+            // Auto copy config to Clipboard for Happ app instant prompt
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(cleanJson).catch(() => {});
+            }
 
-            showToast("Launching Happ App...");
-            window.location.href = happDeepLink;
+            // Encode to Base64 & URI format for Happ Proxy App Deep-Link protocol
+            try {
+                const b64Data = btoa(unescape(encodeURIComponent(cleanJson)));
+                const happDeepLink = "happ://import?data=" + encodeURIComponent(b64Data);
+                
+                showToast("Launching Happ App...");
+                
+                // Trigger scheme
+                window.location.href = happDeepLink;
+
+                // Fallback attempt to open app intent
+                setTimeout(() => {
+                    window.location.href = "happ://add/" + encodeURIComponent(b64Data);
+                }, 800);
+            } catch (e) {
+                window.location.href = "happ://import?data=" + encodeURIComponent(cleanJson);
+            }
         }
 
         function loadUserLinks() {
