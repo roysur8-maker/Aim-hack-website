@@ -1,657 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SR GAMER - Professional Proxy Portal</title>
-    <style>
-        :root {
-            --bg-color: #080a0f;
-            --card-bg: #121620;
-            --accent-red: #ff1e42;
-            --accent-red-hover: #e01638;
-            --text-main: #f0f3f6;
-            --text-muted: #8b949e;
-            --border-color: #21283b;
-            --success-color: #2ea043;
-            --glow-color: rgba(255, 30, 66, 0.25);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 16px;
-            background-image: radial-gradient(circle at 50% 0%, #1a1025 0%, var(--bg-color) 70%);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 440px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px var(--glow-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .brand-title {
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: var(--text-main);
-            margin-bottom: 4px;
-            font-style: italic;
-            text-shadow: 0 0 10px rgba(255,255,255,0.2);
-        }
-
-        .brand-subtitle {
-            font-size: 11px;
-            color: var(--accent-red);
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-        }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        input[type="password"], input[type="text"], textarea {
-            width: 100%;
-            padding: 14px 16px;
-            background-color: #080a0f;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-main);
-            font-size: 15px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, textarea:focus {
-            border-color: var(--accent-red);
-            box-shadow: 0 0 10px var(--glow-color);
-        }
-
-        .toggle-btn {
-            position: absolute;
-            right: 14px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .toggle-btn:hover {
-            color: var(--text-main);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .btn-primary {
-            background-color: var(--accent-red);
-            color: #ffffff;
-            box-shadow: 0 4px 15px var(--glow-color);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent-red-hover);
-            transform: translateY(-1px);
-        }
-
-        .btn-primary:active {
-            transform: translateY(1px);
-        }
-
-        .btn-secondary {
-            background-color: #1a2233;
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            margin-top: 10px;
-        }
-
-        .btn-secondary:hover {
-            background-color: #222c42;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background-color: rgba(46, 160, 67, 0.12);
-            color: var(--success-color);
-            border: 1px solid rgba(46, 160, 67, 0.3);
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--success-color);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--success-color);
-        }
-
-        .info-card {
-            background-color: #080a0f;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .info-title {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .info-value {
-            font-size: 15px;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        .action-links {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .action-link-btn {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            background-color: #080a0f;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 700;
-            transition: border-color 0.2s;
-        }
-
-        .action-link-btn:hover {
-            border-color: var(--accent-red);
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #1a2233;
-            color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 30px;
-            border: 1px solid var(--border-color);
-            font-size: 13px;
-            font-weight: 700;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            opacity: 1;
-        }
-
-        .logout-link {
-            display: block;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 12px;
-            margin-top: 20px;
-            cursor: pointer;
-            text-decoration: underline;
-            font-weight: 600;
-        }
-
-        .logout-link:hover {
-            color: var(--text-main);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 110px;
-            font-family: monospace;
-            font-size: 12px;
-        }
-
-        .key-list {
-            max-height: 110px;
-            overflow-y: auto;
-            margin-bottom: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 8px;
-            background-color: #080a0f;
-        }
-
-        .key-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 8px;
-            border-bottom: 1px solid #1a2233;
-            font-size: 13px;
-        }
-
-        .key-item:last-child {
-            border-bottom: none;
-        }
-
-        .del-btn {
-            background: none;
-            border: none;
-            color: var(--accent-red);
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 11px;
-        }
-
-        .admin-nav-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 8px;
-            background: #080a0f;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-
-        .tab-btn.active {
-            background: var(--accent-red);
-            color: #fff;
-            border-color: var(--accent-red);
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#070709" />
+<title>SR GAMER — Access Panel</title>
+<style>
+:root{--bg:#060608;--panel:#0a0b10;--panel2:#101116;--line:#20212a;--text:#f4f4f7;--muted:#858796;--red:#ff1744;--red2:#c9002d;--green:#00d6a0;--shadow:0 18px 55px #ff174415;--radius:28px}
+*{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;background:radial-gradient(ellipse at 50% 12%,#26030c 0%,#0a0508 32%,var(--bg) 68%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100dvh;letter-spacing:.01em}button,input,select{font:inherit}button{cursor:pointer}.app{width:100%;max-width:760px;min-height:100dvh;margin:auto;padding:22px 20px calc(30px + env(safe-area-inset-bottom));position:relative}.topline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 38px}.pill{display:inline-flex;align-items:center;gap:10px;border:1px solid #1b5a49;border-radius:999px;padding:13px 18px;color:var(--green);font-size:12px;font-weight:800;letter-spacing:.14em;white-space:nowrap;background:#07110f88}.pill.red{border-color:#5b1327;color:var(--red);background:#15060b88}.dot{height:9px;width:9px;background:currentColor;border-radius:50%;box-shadow:0 0 14px currentColor}.brand{text-align:center;margin:0 auto 42px}.brand h1{margin:0;font-size:clamp(44px,11vw,72px);font-weight:250;letter-spacing:.16em;line-height:1.1}.brand .sub{color:var(--red);font-size:15px;font-weight:650;letter-spacing:.58em;margin:12px 0 0 9px}.brand .rule{width:46px;height:2px;background:var(--red);margin:24px auto 0;border-radius:9px;box-shadow:0 0 18px #ff174466}.premium{width:max-content;max-width:100%;margin:0 auto 40px;border:1px solid #60152a;color:var(--red);border-radius:999px;padding:11px 18px;font-size:12px;font-weight:800;letter-spacing:.18em}.auth-note{text-align:center;font-size:12px;line-height:2.2;color:#9798a9;letter-spacing:.34em;font-weight:700;margin:-7px 0 45px}.field-label{display:flex;align-items:center;gap:12px;color:#b6b7c6;font-size:12px;font-weight:800;letter-spacing:.2em;margin:0 0 13px}.field-label .ico{color:var(--red);font-size:18px}.field{width:100%;min-height:66px;border:1px solid #262732;border-radius:23px;background:#08090d;color:var(--text);outline:none;padding:18px 20px;font-size:15px;transition:.2s}.field:focus{border-color:#a31335;box-shadow:0 0 0 3px #ff174415}.field::placeholder{color:#555765;letter-spacing:.08em}.primary{width:100%;border:0;border-radius:999px;min-height:70px;background:linear-gradient(105deg,#ff0039,#c8002c);color:#fff;font-weight:850;letter-spacing:.19em;box-shadow:0 12px 35px #ff00392a;margin-top:23px;transition:transform .16s,filter .16s}.primary:active{transform:scale(.985);filter:brightness(1.12)}.safe-note{text-align:center;margin:40px 0 0;color:#777c8d;font-size:12px;font-weight:750;letter-spacing:.22em}.safe-note span{color:var(--green);margin-right:9px}.hidden{display:none!important}.view{animation:fade .25s ease}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* Home */
+.brand.compact{margin-bottom:42px}.brand.compact h1{font-size:clamp(42px,9vw,63px)}.brand.compact .sub{font-size:13px;letter-spacing:.55em}.panel-card{position:relative;overflow:hidden;border:1px solid #252630;border-radius:var(--radius);background:linear-gradient(135deg,#0a0b10f2,#08090ced);padding:28px 25px;margin-bottom:28px;box-shadow:inset 0 1px #ffffff05}.panel-card.accent{border-left:5px solid var(--red)}.panel-card:after{content:"";position:absolute;right:-34px;bottom:-55px;width:160px;height:160px;border:1px solid #ff17440a;transform:rotate(35deg);pointer-events:none}.eyebrow{display:flex;align-items:center;gap:13px;font-size:12px;color:#bcbccc;letter-spacing:.2em;font-weight:850}.key-value{font-size:clamp(21px,5.4vw,31px);font-weight:350;letter-spacing:.04em;overflow-wrap:anywhere;margin:30px 0 24px}.status{display:inline-flex;align-items:center;gap:8px;border:1px solid #125744;border-radius:999px;padding:12px 16px;color:var(--green);background:#061a14;font-size:12px;font-weight:850;letter-spacing:.1em}.section-title{font-size:13px;letter-spacing:.24em;font-weight:900;color:var(--red);margin:0 0 28px}.body-copy{font-size:16px;line-height:1.9;color:#9a9cab;margin:0}.body-copy strong{color:#f2f2f5}.primary.subscription{display:flex;justify-content:center;align-items:center;gap:17px;font-size:15px;margin-top:32px;min-height:78px}.works{text-align:center;color:#77798b;font-size:11px;font-weight:800;letter-spacing:.16em;margin:27px 0 3px}.bottom-nav{position:sticky;bottom:12px;display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:7px;border:1px solid #292a34;border-radius:45px;background:#08090bf2;box-shadow:0 18px 55px #0008;backdrop-filter:blur(16px);margin:56px 0 0}.nav-btn{min-height:100px;border:0;border-radius:35px;background:transparent;color:#737686;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;font-weight:700;font-size:13px;position:relative}.nav-btn .nav-ico{font-size:26px;line-height:1}.nav-btn.active{background:#19050b;color:var(--red)}.nav-btn.active:after{content:"";position:absolute;bottom:-7px;height:4px;width:42%;border-radius:5px;background:var(--red)}
+/* Settings */
+.divider-title{display:flex;align-items:center;gap:13px;color:#b0b2c2;font-size:12px;font-weight:900;letter-spacing:.24em;margin:40px 8px 20px}.divider-title:after{content:"";height:1px;background:#30303a;flex:1}.settings-item{display:flex;align-items:center;gap:18px;width:100%;text-align:left;color:var(--text);background:linear-gradient(135deg,#0b0c11,#08090d);border:1px solid #252630;border-radius:29px;padding:20px 19px;margin-bottom:16px;min-height:108px}.settings-icon{height:62px;width:62px;flex:0 0 62px;border:1px solid #8c1737;border-radius:50%;color:var(--red);display:grid;place-items:center;font-size:24px}.settings-text{min-width:0;flex:1}.settings-text strong{display:block;font-size:16px;font-weight:800;margin-bottom:7px}.settings-text small{display:block;color:#898b9b;font-size:13px;overflow-wrap:anywhere}.chevron{font-size:28px;color:#707282}.notice{padding:16px 18px;border:1px solid #2a2b35;background:#101116;border-radius:19px;color:#c5c6d0;font-size:13px;margin:10px 0 22px}.toast{position:fixed;left:50%;bottom:calc(25px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:20;background:#17181f;border:1px solid #333440;padding:14px 20px;border-radius:17px;min-width:190px;text-align:center;font-weight:800;font-size:12px;box-shadow:0 14px 35px #0009;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+/* Admin */
+.admin-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 24px}.admin-heading{font-size:24px;font-weight:800;letter-spacing:.02em}.small-btn,.secondary-btn,.danger-btn{border:1px solid #30313b;background:#14151b;color:#d4d5df;border-radius:14px;padding:12px 15px;font-weight:750;font-size:12px}.secondary-btn{border-color:#6b1830;color:#ff4165}.danger-btn{border-color:#743041;color:#ff5c76}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:22px}.stat{border:1px solid #262731;background:#0b0c11;border-radius:19px;padding:17px 12px}.stat small{display:block;color:#888a9a;font-size:10px;letter-spacing:.1em;font-weight:800}.stat strong{font-size:25px;display:block;margin-top:9px}.admin-section{border:1px solid #282933;border-radius:24px;padding:20px;background:#0b0c11;margin:17px 0}.admin-section h3{font-size:14px;letter-spacing:.12em;margin:0 0 18px}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.admin-grid .full{grid-column:1/-1}.admin-label{font-size:11px;color:#a5a6b5;font-weight:800;letter-spacing:.08em;display:block;margin:0 0 8px}.admin-section .field{min-height:52px;padding:13px 14px;border-radius:14px;font-size:13px}.admin-section .primary{min-height:54px;margin-top:14px;font-size:12px;border-radius:15px;letter-spacing:.1em}.key-list{display:grid;gap:12px}.key-row{border:1px solid #272832;background:#0e0f15;border-radius:18px;padding:15px}.key-row-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.key-row-top strong{font-size:13px;overflow-wrap:anywhere}.tag{font-size:10px;font-weight:900;letter-spacing:.08em;color:var(--green);border:1px solid #155541;border-radius:999px;padding:6px 8px;white-space:nowrap}.tag.off{color:#ff6078;border-color:#662338}.key-meta{font-size:11px;color:#9294a4;margin-bottom:12px;line-height:1.65}.key-actions{display:flex;gap:7px;flex-wrap:wrap}.key-actions button{padding:9px 11px;font-size:11px;border-radius:11px}.empty{color:#838594;text-align:center;padding:20px;font-size:13px}.admin-foot{color:#6f7180;font-size:11px;line-height:1.7;margin:22px 3px}.subhead{font-size:11px;color:#77798a;letter-spacing:.14em;font-weight:850;margin:0 0 13px}
+@media(min-width:620px){.app{padding-top:34px}.topline{margin-bottom:44px}.panel-card{padding:34px}.admin-section{padding:24px}.key-list{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.app{padding-left:14px;padding-right:14px}.topline{align-items:flex-start}.pill{font-size:10px;padding:11px 12px;letter-spacing:.08em}.panel-card{padding:22px 18px}.nav-btn{min-height:84px}.admin-grid{grid-template-columns:1fr}.admin-grid .full{grid-column:auto}.stats{gap:7px}.stat{padding:14px 8px}.stat strong{font-size:21px}}
+</style>
 </head>
 <body>
+<main class="app">
+  <section id="loginView" class="view">
+    <div id="loginNotice" class="notice hidden"></div>
+    <div class="premium">⚡ &nbsp; PREMIUM ACCESS</div>
+    <header class="brand"><h1>SR GAMER</h1><div class="sub">ACCESS PANEL</div><div class="rule"></div></header>
+    <div class="auth-note">NO ACCOUNT · NO PASSWORD<br>JUST YOUR KEY</div>
+    <form id="unlockForm">
+      <label class="field-label" for="accessInput"><span class="ico">♙</span> ACCESS KEY</label>
+      <input id="accessInput" class="field" placeholder="ENTER YOUR ACCESS KEY" autocomplete="off" autocapitalize="characters" required />
+      <button class="primary" type="submit">UNLOCK &nbsp; ↗</button>
+    </form>
+    <div class="safe-note"><span>◈</span> KEY ACCESS · MANAGED BY ADMIN</div>
+  </section>
 
-    <div class="container">
-        <!-- LOGIN SECTION -->
-        <div id="loginView">
-            <div class="header">
-                <div class="brand-title">SR GAMER</div>
-                <div class="brand-subtitle">SECURE PORTAL</div>
-            </div>
-
-            <div class="form-group">
-                <label for="accessKey">ACCESS KEY</label>
-                <div class="input-wrapper">
-                    <input type="password" id="accessKey" placeholder="Enter Access Key">
-                    <button type="button" class="toggle-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()">SHOW</button>
-                </div>
-            </div>
-
-            <button class="btn btn-primary" onclick="handleLogin()">LOGIN TO PORTAL</button>
-        </div>
-
-        <!-- USER DASHBOARD SECTION -->
-        <div id="userView" class="hidden">
-            <div class="header">
-                <div class="brand-title">SR GAMER</div>
-                <div class="brand-subtitle">USER DASHBOARD</div>
-            </div>
-
-            <div style="text-align: center;">
-                <div class="status-badge">
-                    <div class="status-dot"></div>
-                    SYSTEM ONLINE & SECURE
-                </div>
-            </div>
-
-            <div class="info-card">
-                <div class="info-title">ACTIVE SESSION KEY</div>
-                <div class="info-value" id="userKeyDisplay">SR-GAMER</div>
-            </div>
-
-            <button class="btn btn-primary" onclick="openHappApp()">OPEN IN HAPP APP</button>
-
-            <div class="action-links">
-                <a id="userTelegramBtn" href="#" target="_blank" class="action-link-btn">JOIN TELEGRAM</a>
-                <a id="userGetKeyBtn" href="#" target="_blank" class="action-link-btn">GET KEY / SUPPORT</a>
-            </div>
-
-            <a class="logout-link" onclick="logout()">LOGOUT SESSION</a>
-        </div>
-
-        <!-- ADMIN PANEL SECTION -->
-        <div id="adminView" class="hidden">
-            <div class="header">
-                <div class="brand-title">SR GAMER</div>
-                <div class="brand-subtitle">ADMIN CONTROL PANEL</div>
-            </div>
-
-            <div class="admin-nav-tabs">
-                <button class="tab-btn active" id="tabConfigBtn" onclick="switchAdminTab('config')">Config</button>
-                <button class="tab-btn" id="tabKeysBtn" onclick="switchAdminTab('keys')">Keys</button>
-                <button class="tab-btn" id="tabSettingsBtn" onclick="switchAdminTab('settings')">Settings</button>
-            </div>
-
-            <!-- Tab 1: Config Editor -->
-            <div id="adminConfigTab" class="admin-tab-content">
-                <div class="form-group">
-                    <label>HAPP JSON CONFIGURATION</label>
-                    <textarea id="jsonConfigInput" placeholder="Paste Happ JSON Code here..."></textarea>
-                    <button class="btn btn-primary" style="margin-top: 8px;" onclick="saveJsonConfig()">SAVE CONFIG PERMANENTLY</button>
-                </div>
-            </div>
-
-            <!-- Tab 2: Keys Manager -->
-            <div id="adminKeysTab" class="admin-tab-content hidden">
-                <div class="form-group">
-                    <label>ACTIVE LICENSE KEYS</label>
-                    <div class="key-list" id="keyListDisplay"></div>
-                    
-                    <div class="input-wrapper" style="margin-top: 10px;">
-                        <input type="text" id="newKeyInput" placeholder="Enter New License Key">
-                    </div>
-                    <button class="btn btn-secondary" onclick="addNewKey()">ADD KEY</button>
-                </div>
-            </div>
-
-            <!-- Tab 3: Settings / Links -->
-            <div id="adminSettingsTab" class="admin-tab-content hidden">
-                <div class="form-group">
-                    <label>TELEGRAM CHANNEL LINK</label>
-                    <input type="text" id="adminTelegramInput" placeholder="https://t.me/your_channel">
-                </div>
-                <div class="form-group">
-                    <label>GET KEY / MOBILE SUPPORT LINK</label>
-                    <input type="text" id="adminGetKeyInput" placeholder="https://t.me/your_bot or website">
-                </div>
-                <button class="btn btn-primary" onclick="saveAdminSettings()">SAVE SETTINGS</button>
-            </div>
-
-            <a class="logout-link" onclick="logout()" style="margin-top: 15px;">LOGOUT ADMIN</a>
-        </div>
+  <section id="userView" class="view hidden">
+    <div class="topline"><div class="pill"><span class="dot"></span> SYSTEM ONLINE</div><div class="pill red">◷ &nbsp; <span id="topTimer">12H 00M 00S LEFT</span></div></div>
+    <header class="brand compact"><h1>SR GAMER</h1><div class="sub">ACCESS PANEL</div><div class="rule"></div></header>
+    <div id="homeTab">
+      <article class="panel-card accent">
+        <div class="eyebrow"><span style="font-size:22px">♙</span> ACCESS KEY</div>
+        <div class="key-value" id="activeKeyText">SR-GAMER-DEMO12</div>
+        <div class="status">✓ <span id="keyStateText">ACTIVE · 12H LEFT</span></div>
+      </article>
+      <article class="panel-card accent">
+        <h2 class="section-title">READY TO CONNECT</h2>
+        <p class="body-copy">Open your configuration subscription in your preferred compatible client. Admin can update the subscription link from the control panel.</p>
+        <button id="subscriptionBtn" class="primary subscription" type="button"><span style="font-size:23px">⇩</span> ADD SUBSCRIPTION</button>
+        <div class="works">CONFIGURATION SUBSCRIPTION · SR GAMER</div>
+      </article>
     </div>
+    <div id="settingsTab" class="hidden">
+      <div class="divider-title">APPS &amp; COMMUNITY</div>
+      <button class="settings-item" id="appLinkBtn"><span class="settings-icon">⇩</span><span class="settings-text"><strong>Compatible App</strong><small id="appLinkLabel">Open app download link</small></span><span class="chevron">›</span></button>
+      <button class="settings-item" id="telegramBtn"><span class="settings-icon">➤</span><span class="settings-text"><strong>Telegram Channel</strong><small id="telegramLabel">Open official community</small></span><span class="chevron">›</span></button>
+      <div class="divider-title">ACCOUNT</div>
+      <button class="settings-item" id="copyKeyBtn"><span class="settings-icon">▢</span><span class="settings-text"><strong>Copy Access Key</strong><small>Tap to copy your key</small></span><span class="chevron">›</span></button>
+      <button class="settings-item" id="logoutBtn"><span class="settings-icon">⇥</span><span class="settings-text"><strong>Logout</strong><small>Clear saved session</small></span><span class="chevron">›</span></button>
+      <div class="admin-foot" style="text-align:center">SR GAMER · ACCESS MANAGEMENT</div>
+    </div>
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-btn active" id="homeNav" type="button"><span class="nav-ico">⌂</span><span>HOME</span></button>
+      <button class="nav-btn" id="settingsNav" type="button"><span class="nav-ico">⚙</span><span>SETTINGS</span></button>
+    </nav>
+  </section>
 
-    <div id="toast" class="toast"></div>
-
-    <script>
-        const DEFAULT_KEYS = ["SR-GAMER"];
-        const ADMIN_KEY = "ADMIN-SR-GAMER";
-        
-        const DEFAULT_JSON = {
-            "remarks": "SR GAMER",
-            "inbounds": [{
-                "tag": "socks",
-                "listen": "127.0.0.1",
-                "port": 10808,
-                "protocol": "socks",
-                "settings": { "auth": "noauth", "udp": true }
-            }]
-        };
-
-        if (!localStorage.getItem("sr_user_keys")) {
-            localStorage.setItem("sr_user_keys", JSON.stringify(DEFAULT_KEYS));
-        }
-        if (!localStorage.getItem("sr_happ_config")) {
-            localStorage.setItem("sr_happ_config", JSON.stringify(DEFAULT_JSON));
-        }
-        if (!localStorage.getItem("sr_telegram_link")) {
-            localStorage.setItem("sr_telegram_link", "https://t.me/");
-        }
-        if (!localStorage.getItem("sr_getkey_link")) {
-            localStorage.setItem("sr_getkey_link", "https://t.me/");
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            toast.innerText = message;
-            toast.classList.add("show");
-            setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2500);
-        }
-
-        function toggleKeyVisibility() {
-            const input = document.getElementById("accessKey");
-            const btn = document.getElementById("toggleKeyBtn");
-            if (input.type === "password") {
-                input.type = "text";
-                btn.innerText = "HIDE";
-            } else {
-                input.type = "password";
-                btn.innerText = "SHOW";
-            }
-        }
-
-        function handleLogin() {
-            const keyInput = document.getElementById("accessKey").value.trim();
-            const userKeys = JSON.parse(localStorage.getItem("sr_user_keys"));
-
-            if (keyInput === ADMIN_KEY) {
-                document.getElementById("loginView").classList.add("hidden");
-                document.getElementById("adminView").classList.remove("hidden");
-                loadAdminData();
-                showToast("Welcome Admin Panel");
-            } else if (userKeys.includes(keyInput)) {
-                document.getElementById("loginView").classList.add("hidden");
-                document.getElementById("userView").classList.remove("hidden");
-                document.getElementById("userKeyDisplay").innerText = keyInput;
-                loadUserLinks();
-                showToast("Access Granted");
-            } else {
-                showToast("Invalid Access Key!");
-            }
-        }
-
-        function logout() {
-            document.getElementById("accessKey").value = "";
-            document.getElementById("loginView").classList.remove("hidden");
-            document.getElementById("userView").classList.add("hidden");
-            document.getElementById("adminView").classList.add("hidden");
-            showToast("Logged Out");
-        }
-
-        function openHappApp() {
-            const jsonConfig = localStorage.getItem("sr_happ_config");
-            if (!jsonConfig) {
-                showToast("No configuration found!");
-                return;
-            }
-
-            const cleanJson = jsonConfig.trim();
-            
-            // Auto copy config to Clipboard for Happ app instant prompt
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(cleanJson).catch(() => {});
-            }
-
-            // Encode to Base64 & URI format for Happ Proxy App Deep-Link protocol
-            try {
-                const b64Data = btoa(unescape(encodeURIComponent(cleanJson)));
-                const happDeepLink = "happ://import?data=" + encodeURIComponent(b64Data);
-                
-                showToast("Launching Happ App...");
-                
-                // Trigger scheme
-                window.location.href = happDeepLink;
-
-                // Fallback attempt to open app intent
-                setTimeout(() => {
-                    window.location.href = "happ://add/" + encodeURIComponent(b64Data);
-                }, 800);
-            } catch (e) {
-                window.location.href = "happ://import?data=" + encodeURIComponent(cleanJson);
-            }
-        }
-
-        function loadUserLinks() {
-            const tgLink = localStorage.getItem("sr_telegram_link") || "#";
-            const getKeyLink = localStorage.getItem("sr_getkey_link") || "#";
-            document.getElementById("userTelegramBtn").href = tgLink;
-            document.getElementById("userGetKeyBtn").href = getKeyLink;
-        }
-
-        function switchAdminTab(tabName) {
-            document.getElementById("adminConfigTab").classList.add("hidden");
-            document.getElementById("adminKeysTab").classList.add("hidden");
-            document.getElementById("adminSettingsTab").classList.add("hidden");
-
-            document.getElementById("tabConfigBtn").classList.remove("active");
-            document.getElementById("tabKeysBtn").classList.remove("active");
-            document.getElementById("tabSettingsBtn").classList.remove("active");
-
-            if (tabName === 'config') {
-                document.getElementById("adminConfigTab").classList.remove("hidden");
-                document.getElementById("tabConfigBtn").classList.add("active");
-            } else if (tabName === 'keys') {
-                document.getElementById("adminKeysTab").classList.remove("hidden");
-                document.getElementById("tabKeysBtn").classList.add("active");
-                renderKeyList();
-            } else if (tabName === 'settings') {
-                document.getElementById("adminSettingsTab").classList.remove("hidden");
-                document.getElementById("tabSettingsBtn").classList.add("active");
-                loadAdminSettingsData();
-            }
-        }
-
-        function loadAdminData() {
-            document.getElementById("jsonConfigInput").value = localStorage.getItem("sr_happ_config");
-            renderKeyList();
-            loadAdminSettingsData();
-        }
-
-        function loadAdminSettingsData() {
-            document.getElementById("adminTelegramInput").value = localStorage.getItem("sr_telegram_link") || "";
-            document.getElementById("adminGetKeyInput").value = localStorage.getItem("sr_getkey_link") || "";
-        }
-
-        function saveJsonConfig() {
-            const inputVal = document.getElementById("jsonConfigInput").value.trim();
-            try {
-                JSON.parse(inputVal);
-                localStorage.setItem("sr_happ_config", inputVal);
-                showToast("JSON Config Saved Successfully!");
-            } catch (e) {
-                showToast("Invalid JSON Format!");
-            }
-        }
-
-        function saveAdminSettings() {
-            const tg = document.getElementById("adminTelegramInput").value.trim();
-            const gk = document.getElementById("adminGetKeyInput").value.trim();
-            localStorage.setItem("sr_telegram_link", tg);
-            localStorage.setItem("sr_getkey_link", gk);
-            showToast("Settings Saved Successfully!");
-        }
-
-        function renderKeyList() {
-            const userKeys = JSON.parse(localStorage.getItem("sr_user_keys"));
-            const container = document.getElementById("keyListDisplay");
-            container.innerHTML = "";
-
-            userKeys.forEach((key, index) => {
-                const item = document.createElement("div");
-                item.className = "key-item";
-                item.innerHTML = `
-                    <span>${key}</span>
-                    <button class="del-btn" onclick="deleteKey(${index})">REMOVE</button>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function addNewKey() {
-            const newKey = document.getElementById("newKeyInput").value.trim();
-            if (!newKey) return;
-
-            const userKeys = JSON.parse(localStorage.getItem("sr_user_keys"));
-            if (userKeys.includes(newKey) || newKey === ADMIN_KEY) {
-                showToast("Key already exists!");
-                return;
-            }
-
-            userKeys.push(newKey);
-            localStorage.setItem("sr_user_keys", JSON.stringify(userKeys));
-            document.getElementById("newKeyInput").value = "";
-            renderKeyList();
-            showToast("Key Added!");
-        }
-
-        function deleteKey(index) {
-            const userKeys = JSON.parse(localStorage.getItem("sr_user_keys"));
-            userKeys.splice(index, 1);
-            localStorage.setItem("sr_user_keys", JSON.stringify(userKeys));
-            renderKeyList();
-            showToast("Key Removed!");
-        }
-    </script>
+  <section id="adminView" class="view hidden">
+    <div class="admin-header"><div><div class="subhead">SR GAMER / CONTROL CENTER</div><div class="admin-heading">Admin Panel</div></div><button id="adminExitBtn" class="small-btn" type="button">LOG OUT ×</button></div>
+    <div class="notice">Admin mode: create and manage access keys, set key duration, and change the subscription, app, and Telegram links.</div>
+    <div class="stats"><div class="stat"><small>TOTAL KEYS</small><strong id="statTotal">0</strong></div><div class="stat"><small>ACTIVE</small><strong id="statActive">0</strong></div><div class="stat"><small>EXPIRED</small><strong id="statExpired">0</strong></div></div>
+    <section class="admin-section">
+      <h3>＋ CREATE ACCESS KEY</h3>
+      <form id="createKeyForm" class="admin-grid">
+        <div class="full"><label class="admin-label" for="newKeyInput">KEY NAME</label><input id="newKeyInput" class="field" placeholder="SR-GAMER-XXXXXX" required /></div>
+        <div><label class="admin-label" for="newKeyHours">VALID FOR (HOURS)</label><input id="newKeyHours" class="field" type="number" min="1" max="8760" value="12" required /></div>
+        <div><label class="admin-label" for="newKeyStatus">INITIAL STATUS</label><select id="newKeyStatus" class="field"><option value="active">Active</option><option value="inactive">Disabled</option></select></div>
+        <div class="full"><button class="primary" type="submit">＋ CREATE KEY</button></div>
+      </form>
+    </section>
+    <section class="admin-section"><h3>⌘ MANAGE LICENSE KEYS</h3><div id="keyList" class="key-list"></div></section>
+    <section class="admin-section">
+      <h3>↗ LINK &amp; APP SETTINGS</h3>
+      <form id="linksForm" class="admin-grid">
+        <div class="full"><label class="admin-label" for="subscriptionUrl">ADD SUBSCRIPTION URL</label><input class="field" id="subscriptionUrl" type="url" placeholder="https://your-subscription-link.example" /></div>
+        <div class="full"><label class="admin-label" for="telegramUrl">TELEGRAM CHANNEL URL</label><input class="field" id="telegramUrl" type="url" placeholder="https://t.me/your_channel" /></div>
+        <div class="full"><label class="admin-label" for="appUrl">APP DOWNLOAD URL</label><input class="field" id="appUrl" type="url" placeholder="https://your-app-download-link.example" /></div>
+        <div class="full"><button type="submit" class="primary">SAVE LINK SETTINGS</button></div>
+      </form>
+    </section>
+    <section class="admin-section">
+      <h3>⚙ PANEL SETTINGS</h3>
+      <div class="admin-grid">
+        <div class="full"><label class="admin-label" for="brandInput">PANEL SUBTITLE</label><input class="field" id="brandInput" maxlength="40" placeholder="ACCESS PANEL" /></div>
+        <div class="full"><button class="secondary-btn" id="saveBrandBtn" type="button">SAVE DISPLAY NAME</button> <button class="danger-btn" id="resetDemoBtn" type="button">RESET DEMO DATA</button></div>
+      </div>
+    </section>
+    <p class="admin-foot">Demo storage runs in this browser only. This single HTML file does not provide server-side authentication or cross-device synchronization. For a public/live launch, move keys and admin authorization to a protected backend or Firebase rules; never rely on a secret embedded in client-side HTML.</p>
+  </section>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite">Saved</div>
+<script>
+(()=>{
+  'use strict';
+  const ADMIN_KEY='SR-GAMER-1298';
+  const STORAGE='srGamerPanel_v1';
+  const $=id=>document.getElementById(id);
+  const defaults=()=>({
+    keys:[{key:'SR-GAMER-DEMO12',createdAt:Date.now(),expiresAt:Date.now()+12*3600000,status:'active',demo:true}],
+    links:{subscriptionUrl:'',telegramUrl:'',appUrl:''},
+    subtitle:'ACCESS PANEL'
+  });
+  let data=loadData(), currentKey='', toastTimer=null, timerInterval=null;
+  function loadData(){try{const raw=localStorage.getItem(STORAGE);if(raw){const parsed=JSON.parse(raw);if(parsed&&Array.isArray(parsed.keys)&&parsed.links)return parsed;}}catch(e){}return defaults();}
+  function saveData(){localStorage.setItem(STORAGE,JSON.stringify(data));}
+  function notify(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2300);}
+  function showView(id){['loginView','userView','adminView'].forEach(v=>$(v).classList.toggle('hidden',v!==id));window.scrollTo({top:0,behavior:'smooth'});}
+  function openLink(raw){let url=(raw||'').trim();if(!url){notify('Admin has not added this link yet');return;}try{const u=new URL(url);if(!['http:','https:'].includes(u.protocol)){notify('Only HTTPS/HTTP links are allowed');return;}window.open(u.href,'_blank','noopener,noreferrer');}catch(e){notify('Please set a valid link in Admin Panel');}}
+  function getKey(k){return data.keys.find(x=>x.key.toUpperCase()===k.toUpperCase());}
+  function isExpired(k){return !k||!k.expiresAt||Date.now()>=Number(k.expiresAt);}
+  function fmtLeft(ms){if(ms<=0)return '00H 00M 00S';let s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return `${String(h).padStart(2,'0')}H ${String(m).padStart(2,'0')}M ${String(sec).padStart(2,'0')}S`;}
+  function validUserKey(k){const o=getKey(k);return !!o&&o.status==='active'&&!isExpired(o);}
+  function setBrand(){document.querySelectorAll('.brand .sub').forEach(el=>el.textContent=data.subtitle||'ACCESS PANEL');}
+  function enterUser(key){currentKey=getKey(key).key;localStorage.setItem('srGamerActiveKey',currentKey);$('activeKeyText').textContent=currentKey;setBrand();showView('userView');setUserTab('home');updateTimer();if(timerInterval)clearInterval(timerInterval);timerInterval=setInterval(updateTimer,1000);}
+  function updateTimer(){const k=getKey(currentKey);if(!k){logoutUser(false);return;}const left=Number(k.expiresAt)-Date.now();$('topTimer').textContent=fmtLeft(left);$('keyStateText').textContent=left<=0?'EXPIRED':`ACTIVE · ${fmtLeft(left)} LEFT`;if(left<=0){if(timerInterval)clearInterval(timerInterval);notify('Access key expired');setTimeout(()=>logoutUser(false),800);}}
+  function logoutUser(showMsg=true){currentKey='';localStorage.removeItem('srGamerActiveKey');if(timerInterval)clearInterval(timerInterval);$('accessInput').value='';showView('loginView');if(showMsg){$('loginNotice').textContent='SESSION CLEARED';$('loginNotice').classList.remove('hidden');notify('Session cleared');}else{$('loginNotice').classList.add('hidden');}}
+  function setUserTab(tab){const home=tab==='home';$('homeTab').classList.toggle('hidden',!home);$('settingsTab').classList.toggle('hidden',home);$('homeNav').classList.toggle('active',home);$('settingsNav').classList.toggle('active',!home);}
+  function enterAdmin(){showView('adminView');renderAdmin();}
+  function renderAdmin(){
+    const active=data.keys.filter(k=>k.status==='active'&&!isExpired(k)).length;
+    $('statTotal').textContent=data.keys.length;$('statActive').textContent=active;$('statExpired').textContent=data.keys.filter(isExpired).length;
+    $('subscriptionUrl').value=data.links.subscriptionUrl||'';$('telegramUrl').value=data.links.telegramUrl||'';$('appUrl').value=data.links.appUrl||'';$('brandInput').value=data.subtitle||'ACCESS PANEL';setBrand();
+    const list=$('keyList');list.innerHTML='';
+    if(!data.keys.length){list.innerHTML='<div class="empty">No keys yet. Create your first key above.</div>';return;}
+    [...data.keys].sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0)).forEach((item)=>{
+      const row=document.createElement('article');row.className='key-row';
+      const status=item.status==='active'&&!isExpired(item);const left=Number(item.expiresAt)-Date.now();
+      row.innerHTML=`<div class="key-row-top"><strong></strong><span class="tag ${status?'':'off'}">${status?'ACTIVE':(isExpired(item)?'EXPIRED':'DISABLED')}</span></div><div class="key-meta"></div><div class="key-actions"><button class="secondary-btn" data-action="save">CHANGE KEY</button><button class="small-btn" data-action="copy">COPY</button><button class="small-btn" data-action="extend">EXTEND</button><button class="small-btn" data-action="toggle">${item.status==='active'?'DISABLE':'ENABLE'}</button><button class="danger-btn" data-action="delete">DELETE</button></div>`;
+      const title=row.querySelector('strong');title.textContent=item.key;
+      row.querySelector('.key-meta').textContent=`Valid until: ${new Date(Number(item.expiresAt)||Date.now()).toLocaleString()} · ${isExpired(item)?'Time expired':fmtLeft(left)+' left'}${item.demo?' · demo key':''}`;
+      row.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{
+        const action=btn.dataset.action;const original=item.key;
+        if(action==='copy'){copyText(original);return;}
+        if(action==='save'){const replacement=prompt('Enter the new license key:',original);if(replacement===null)return;const clean=replacement.trim();if(!clean){notify('Key cannot be empty');return;}if(clean.toUpperCase()!==original.toUpperCase()&&getKey(clean)){notify('That key already exists');return;}item.key=clean;data.keys[data.keys.indexOf(item)]=item;saveData();if(currentKey.toUpperCase()===original.toUpperCase())currentKey=clean;renderAdmin();notify('License key updated');return;}
+        if(action==='extend'){const answer=prompt('Set validity from now (hours):','12');if(answer===null)return;const hours=Number(answer);if(!Number.isFinite(hours)||hours<1||hours>8760){notify('Enter a duration from 1 to 8760 hours');return;}item.expiresAt=Date.now()+hours*3600000;item.createdAt=item.createdAt||Date.now();saveData();renderAdmin();notify('Key expiry extended');return;}
+        if(action==='toggle'){item.status=item.status==='active'?'inactive':'active';saveData();renderAdmin();notify(item.status==='active'?'Key enabled':'Key disabled');return;}
+        if(action==='delete'){if(!confirm(`Delete license key ${original}?`))return;data.keys=data.keys.filter(k=>k!==item);saveData();renderAdmin();notify('Key deleted');}
+      }));list.appendChild(row);
+    });
+  }
+  async function copyText(txt){try{await navigator.clipboard.writeText(txt);notify('Copied to clipboard');}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');notify('Copied to clipboard');}catch(_){notify('Copy failed — select the key manually');}ta.remove();}}
+  $('unlockForm').addEventListener('submit',e=>{e.preventDefault();const raw=$('accessInput').value.trim();if(!raw){notify('Enter an access key');return;}if(raw.toUpperCase()===ADMIN_KEY.toUpperCase()){enterAdmin();return;}const key=getKey(raw);if(!key){notify('Invalid access key');return;}if(key.status!=='active'){notify('This access key is disabled');return;}if(isExpired(key)){notify('This access key has expired');return;}enterUser(raw);});
+  $('homeNav').addEventListener('click',()=>setUserTab('home'));$('settingsNav').addEventListener('click',()=>setUserTab('settings'));
+  $('subscriptionBtn').addEventListener('click',()=>openLink(data.links.subscriptionUrl));$('telegramBtn').addEventListener('click',()=>openLink(data.links.telegramUrl));$('appLinkBtn').addEventListener('click',()=>openLink(data.links.appUrl));$('copyKeyBtn').addEventListener('click',()=>copyText(currentKey));$('logoutBtn').addEventListener('click',()=>logoutUser(true));
+  $('adminExitBtn').addEventListener('click',()=>{showView('loginView');$('loginNotice').classList.add('hidden');$('accessInput').value='';});
+  $('createKeyForm').addEventListener('submit',e=>{e.preventDefault();const key=$('newKeyInput').value.trim();const hours=Number($('newKeyHours').value);if(!key){notify('Enter a key name');return;}if(!Number.isFinite(hours)||hours<1||hours>8760){notify('Duration must be 1–8760 hours');return;}if(key.toUpperCase()===ADMIN_KEY.toUpperCase()){notify('That key is reserved for admin');return;}if(getKey(key)){notify('This key already exists');return;}data.keys.push({key,createdAt:Date.now(),expiresAt:Date.now()+hours*3600000,status:$('newKeyStatus').value,demo:false});saveData();$('newKeyInput').value='';renderAdmin();notify('New key created');});
+  $('linksForm').addEventListener('submit',e=>{e.preventDefault();const vals={subscriptionUrl:$('subscriptionUrl').value.trim(),telegramUrl:$('telegramUrl').value.trim(),appUrl:$('appUrl').value.trim()};for(const [label,val] of Object.entries(vals)){if(!val)continue;try{const u=new URL(val);if(!['http:','https:'].includes(u.protocol))throw Error();}catch(_){notify('Please check the URL fields');return;}}data.links=vals;saveData();$('telegramLabel').textContent=vals.telegramUrl||'Admin has not added a link';$('appLinkLabel').textContent=vals.appUrl||'Admin has not added a link';notify('Links saved successfully');});
+  $('saveBrandBtn').addEventListener('click',()=>{const brand=$('brandInput').value.trim();data.subtitle=brand||'ACCESS PANEL';saveData();setBrand();notify('Display name saved');});
+  $('resetDemoBtn').addEventListener('click',()=>{if(!confirm('Reset this browser to the original demo keys and links? All locally saved keys will be lost.'))return;data=defaults();saveData();localStorage.removeItem('srGamerActiveKey');renderAdmin();notify('Demo data reset');});
+  // Restore a valid user session from this browser only.
+  const remembered=localStorage.getItem('srGamerActiveKey');
+  if(remembered&&validUserKey(remembered)){enterUser(remembered);}else{if(remembered)localStorage.removeItem('srGamerActiveKey');showView('loginView');}
+  $('telegramLabel').textContent=data.links.telegramUrl||'Admin has not added a link';$('appLinkLabel').textContent=data.links.appUrl||'Admin has not added a link';
+})();
+</script>
 </body>
 </html>
