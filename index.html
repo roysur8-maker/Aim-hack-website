@@ -123,7 +123,7 @@
   const $=id=>document.getElementById(id);
   const defaults=()=>({
     keys:[{key:'SR-GAMER-DEMO12',createdAt:Date.now(),expiresAt:Date.now()+12*3600000,status:'active',demo:true}],
-    links:{subscriptionUrl:'hysteria2://SLTX-2E9C-B28C-5464@wraith-bom3.silentx.store:443?alpn=h3&sni=wraith-bom3.silentx.store#SR-GAMER-PRO',telegramUrl:'',appUrl:''},
+    links:{subscriptionUrl:'v2raytun://import/hysteria2://SLTX-2E9C-B28C-5464@wraith-bom3.silentx.store:443?alpn=h3&sni=wraith-bom3.silentx.store#SR-GAMER-PRO',telegramUrl:'',appUrl:''},
     maintenance:false,
     subtitle:'ACCESS PANEL'
   });
@@ -137,9 +137,9 @@
   }
   function notify(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2300);}
   function showView(id){['loginView','userView','adminView','maintenanceView'].forEach(v=>$(v).classList.toggle('hidden',v!==id));window.scrollTo({top:0,behavior:'smooth'});}
-  function openLink(raw){const url=(raw||'').trim();if(!url){notify('Admin has not added this link yet');return;}try{const u=new URL(url);if(['http:','https:'].includes(u.protocol)){window.open(u.href,'_blank','noopener,noreferrer');return;}if(/^(hysteria2?|hy2|vless|vmess|trojan|ss|ssr|tuic|socks5?):$/i.test(u.protocol)){window.location.href=url;return;}notify('Unsupported subscription scheme');}catch(e){notify('Please set a valid link in Admin Panel');}}
+  function openLink(raw){const url=(raw||'').trim();if(!url){notify('Admin has not added this link yet');return;}if(/^v2raytun:\/\/import\/hysteria2:\/\//i.test(url)){window.location.href=url;return;}try{const u=new URL(url);if(['http:','https:'].includes(u.protocol)){window.open(u.href,'_blank','noopener,noreferrer');return;}if(/^(hysteria2?|hy2|vless|vmess|trojan|ss|ssr|tuic|socks5?):$/i.test(u.protocol)){window.location.href=url;return;}notify('Unsupported subscription scheme');}catch(e){notify('Please set a valid link in Admin Panel');}}
   function validWebUrl(value){try{const u=new URL(value);return ['https:','http:'].includes(u.protocol)&&!!u.hostname;}catch(e){return false;}}
-  function validSubscriptionUri(value){const v=(value||'').trim();if(!v)return true; if(/^https?:\/\//i.test(v))return false; return /^(vless|vmess|trojan|ss|ssr|hysteria2?|hy2|tuic|socks|socks5|sing-box|clash):\/\//i.test(v) || /^[a-z0-9._-]+:\/\//i.test(v);}
+  function validSubscriptionUri(value){const v=(value||'').trim();if(!v)return true;if(/^https?:\/\//i.test(v))return false;if(/^v2raytun:\/\/import\/hysteria2:\/\/.+@[^\s:]+:\d+/i.test(v))return true;return /^(vless|vmess|trojan|ss|ssr|hysteria2?|hy2|tuic|socks|socks5|sing-box|clash):\/\//i.test(v)||/^[a-z0-9._-]+:\/\//i.test(v);}
   function getKey(k){return data.keys.find(x=>x.key.toUpperCase()===k.toUpperCase());}
   function isExpired(k){return !k||!k.expiresAt||Date.now()>=Number(k.expiresAt);}
   function fmtLeft(ms){if(ms<=0)return '00H 00M 00S';let s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return `${String(h).padStart(2,'0')}H ${String(m).padStart(2,'0')}M ${String(sec).padStart(2,'0')}S`;}
@@ -193,7 +193,7 @@
     firebaseRef.once('value').then(snapshot=>{
       const remote=snapshot.val();
       if(remote&&Array.isArray(remote.keys)&&remote.links){const base=defaults();data={...base,...remote,links:{...base.links,...remote.links},maintenance:!!remote.maintenance};if(!data.links.subscriptionUrl)data.links.subscriptionUrl=base.links.subscriptionUrl;try{localStorage.setItem(STORAGE,JSON.stringify(data));}catch(e){}}
-      else {data.links.subscriptionUrl=data.links.subscriptionUrl||'hysteria2://SLTX-2E9C-B28C-5464@wraith-bom3.silentx.store:443?alpn=h3&sni=wraith-bom3.silentx.store#SR-GAMER-PRO';return firebaseRef.set(data);}
+      else {data.links.subscriptionUrl=data.links.subscriptionUrl||'v2raytun://import/hysteria2://SLTX-2E9C-B28C-5464@wraith-bom3.silentx.store:443?alpn=h3&sni=wraith-bom3.silentx.store#SR-GAMER-PRO';return firebaseRef.set(data);}
     }).then(()=>restoreSession()).catch(err=>{console.error('Firebase read failed',err);notify('Firebase unavailable; using local data');restoreSession();});
   }else{restoreSession();}
 })();
